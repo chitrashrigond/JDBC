@@ -10,7 +10,7 @@ public class JdbcTester {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		String userName="root";
-		String password="kariya@2021";
+		String password=" ";
 		String url="jdbc:mysql://localhost:3306/jdbctask";
 		String fqnOfDriverImpl="com.mysql.cj.jdbc.Driver";
 		
