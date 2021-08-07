@@ -17,7 +17,7 @@ public class ScamTester {
 	public static void main(String[] args) throws SQLException {
 
 		String username = "root";
-		String password = "kariya@2021";
+		String password = " ";
 		String url = "jdbc:mysql://localhost:3306/jdbc";
 		String fqnOfDriverImpl = "com.mysql.cj.jdbc.Driver";
 
@@ -37,7 +37,7 @@ public class ScamTester {
 			String query9 = "insert into ScamDetails values(8,'Sukh Ram telecom','M',1997,' sssss',86 ,'Bihar','Pandit Sukh Ram (born 27 July 1927) is an Indian politician who served as the Minister of Communications and Information Technology from 1993 to 1996.')";
 			String query10 = "insert into ScamDetails values(9,'Teak plantation','N',1998,' Jagannath Mishra',9.4 ,'Bihar','Anubhav Plantations was an Indian Chennai-based plantation company founded in 1992.[1] It sold shares in teak plantations on guaranteed interests.')";
 			String query11 = "insert into ScamDetails values(10,'UTI scam','O',2001,'Mark Nelson',9.4 ,'Bihar','The Unit Trust of India Act 1963 was repealed, paving way for the bifurcation of UTI into: Specified Undertaking of Unit Trust of India (SUUTI) and UTI Mutual Fund (UTIMF).')";
-			String query12 = "insert into ScamDetails values(11,'SanjayAgarwal','P',2002,' Jagannath Mishra',9.4 ,'Bihar','Consider for example the core of the current ìscamî constituted by transactions involving a set of cooperative banks and Home Trade, which has once again seen a few hundred')";
+			String query12 = "insert into ScamDetails values(11,'SanjayAgarwal','P',2002,' Jagannath Mishra',9.4 ,'Bihar','Consider for example the core of the current ‚Äúscam‚Äù constituted by transactions involving a set of cooperative banks and Home Trade, which has once again seen a few hundred')";
 			String query13 = "insert into ScamDetails values(12,'Jharkhand medical','Q',2008,'harkhand medical',130,'Jarkhand','Former Jharkhand Health Minister Bhanu Pratap Sahi surrendered in a CBI court in Ranchi in connection with Rs 130 crores, National Rural Health Mission (NRHM) scam popularly known as medicine scam. ')";
 			String query14 = "insert into ScamDetails values(13,' HassanAliKhantax','R',2008,'Hassan Ali Khan',34000,'India','Having hit the national headlines in 2007, he was alleged to have owed more than Rs 34,000 crore to the government in tax dues.')";
 			String query15 = "insert into ScamDetails values(14,'IPO-Demat scam','Bank',2005,'Financiers',24000,'Delhi','Eleven years on, while 80% of scam-hit investors have been fully ... hit by what has come to be known as the IPO scam or the demat scam')";
