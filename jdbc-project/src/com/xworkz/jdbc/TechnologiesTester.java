@@ -10,7 +10,7 @@ public class TechnologiesTester {
 			public static void main(String[] args) {
 				
 				String username = "root";
-				String password = " ";
+				String password = "kariya@2021";
 				String url = "jdbc:mysql://localhost:3306/jdbctask";
 				String fqnOfDriverImpl = "com.mysql.cj.jdbc.Driver";
 				

@@ -17,7 +17,7 @@ public class DeleteByID {
 		
 		try (Connection connect = DriverManager.getConnection(url, username, password)) {
 
-			String deleteScamById = "delete from scamI where S_ID=1";
+			String deleteScamById = "delete from ScamDetails where S_ID=1";
 			Statement st = connect. createStatement();
 			st.execute(deleteScamById);
 		} catch (SQLException e) {
