@@ -16,7 +16,7 @@ public class UpdateAmountById {
 		try  
 		
 		(Connection connect = DriverManager.getConnection(url, username, password)){
-
+		
 		String UpdateAmountById = "update ScamI set S_AMOUNT=136274 where S_ID='13'";
 		Statement st = connect.createStatement();
 		st.execute(UpdateAmountById);
