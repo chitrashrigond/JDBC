@@ -20,7 +20,7 @@ public  class RestaurantsDAOImpl implements RestaurantsDAO{
 try (Connection connection=DriverManager.getConnection(JdbcConstant.url,JdbcConstant.username,JdbcConstant.password)){
 	tempConnection=connection;
 	connection.setAutoCommit(false);
-	String query ="insert into restaurant_table values(1,'"+dto.getName()+"','"+dto.getLocation()+"','"+dto.getSpecialFood()+"','"+dto.getSpecialFood()+"','"+dto.getType()+"')";
+	String query ="insert into restaurant_table values(1,'"+dto.getName()+"','"+dto.getLocation()+"','"+dto.getSpecialFood()+"','"+dto.getBest()+"','"+dto.getType()+"')";
     Statement statement=connection.createStatement();
 	statement.execute(query);
 	connection.commit();
