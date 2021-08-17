@@ -20,20 +20,17 @@ import com.xworkz.jdbc_Customer.dto.CustomerDTO;
 
 public class CustomerDAOImpl implements CustomerDAO {
 
-	@Override
-	public int save(CustomerDTO dto) {
-		System.out.println("saving dto into DB" + dto);
-		Connection tempConnection = null;
+	Connection tempConnection = null;
+
+	public CustomerDAOImpl() {
+		initDB();
+	}
+
+	private void initDB() {
 
 		try (Connection connection = DriverManager.getConnection(url, username, password)) {
 			tempConnection = connection;
 			connection.setAutoCommit(false);
-			String query = "insert into customer_table values('" + dto.getId() + "','" + dto.getName() + "','"
-					+ dto.getFrom() + "','" + dto.getTo() + "','" + dto.getAddress() + "','" + dto.isMarried() + "','"
-					+ dto.getPassportNo() + "','" + dto.getEducation() + "')";
-			Statement statement = connection.createStatement();
-			statement.execute(query);
-			connection.commit();
 		} catch (SQLException e) {
 			e.printStackTrace();
 			try {
@@ -42,6 +39,57 @@ public class CustomerDAOImpl implements CustomerDAO {
 				e1.printStackTrace();
 			}
 		}
+
+	}
+
+	private void executeQuery(String query) {
+		try {
+			Statement statement = tempConnection.createStatement();
+			statement.execute(query);
+			tempConnection.commit();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+
+	private ResultSet executeResultSetQuery(String query) {
+		ResultSet rset = null;
+		try {
+			PreparedStatement st = tempConnection.prepareStatement(query);
+			rset = st.executeQuery();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+
+	}
+
+	private CustomerDTO mapResultToDto(ResultSet rset) throws SQLException {
+		CustomerDTO dto = new CustomerDTO();
+		dto.setId(rset.getInt("c_id"));
+		dto.setName(rset.getString("c_name"));
+		dto.setFrom(rset.getString("c_from"));
+		dto.setTo(rset.getString("c_to"));
+		dto.setAddress(rset.getString("c_address"));
+		dto.setMarried(rset.getBoolean("c_married"));
+		dto.setPassportNo(rset.getInt("c_passportNo"));
+
+		Education education = Education.valueOf(rset.getString("c_education"));
+		return dto;
+	}
+
+	@Override
+	public int save(CustomerDTO dto) {
+		System.out.println("saving dto into DB" + dto);
+
+		String query = "insert into customer_table values('" + dto.getId() + "','" + dto.getName() + "','"
+				+ dto.getFrom() + "','" + dto.getTo() + "','" + dto.getAddress() + "','" + dto.isMarried() + "','"
+				+ dto.getPassportNo() + "','" + dto.getEducation() + "')";
+
+		executeQuery(query);
 		return 0;
 	}
 
@@ -53,30 +101,20 @@ public class CustomerDAOImpl implements CustomerDAO {
 
 	@Override
 	public Collection<CustomerDTO> findAll() {
-		Collection dt = new ArrayList();
-		try (Connection connect = DriverManager.getConnection(url, username, password)) {
-			String query = ("SELECT * FROM customer_table");
-			PreparedStatement st = connect.prepareStatement(query);
-			ResultSet rset = st.executeQuery();
+		Collection<CustomerDTO> dt = new ArrayList<CustomerDTO>();
 
+		String query = ("SELECT * FROM customer_table where 1=1");
+		ResultSet rset = executeResultSetQuery(query);
+		try {
 			while (rset.next()) {
-				CustomerDTO dto = new CustomerDTO();
-				int id = rset.getInt("c_id");
-				String name = rset.getString("c_name");
-				String from = rset.getString("c_from");
-				String to = rset.getString("c_to");
-				String address = rset.getString("c_address");
-				boolean married = rset.getBoolean("c_married");
-				int passportNo = rset.getInt("c_passportNo");
-
-				Education education = Education.valueOf(rset.getString("c_education"));
-				dto = new CustomerDTO(id, name, from, to, address, married, passportNo, education);
+				CustomerDTO dto = mapResultToDto(rset);
 				dt.add(dto);
-
 			}
 		} catch (SQLException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+
 		return dt;
 
 	}
@@ -84,34 +122,24 @@ public class CustomerDAOImpl implements CustomerDAO {
 	@Override
 	public Collection<CustomerDTO> findAllSortByNameDesc() {
 
-		Collection dt = new ArrayList();
-		try (Connection connect = DriverManager.getConnection(url, username, password)) {
-			String query = ("SELECT * FROM customer_table  ORDER BY c_name DESC");
-			PreparedStatement st = connect.prepareStatement(query);
-			ResultSet rset = st.executeQuery();
+		Collection<CustomerDTO> dt = new ArrayList<CustomerDTO>();
 
+		String query = ("SELECT * FROM customer_table  ORDER BY c_name DESC");
+		ResultSet rset = executeResultSetQuery(query);
+
+		try {
 			while (rset.next()) {
-				CustomerDTO dto = new CustomerDTO();
-
-				int id = rset.getInt("c_id");
-				String name = rset.getString("c_name");
-				String from = rset.getString("c_from");
-				String to = rset.getString("c_to");
-				String address = rset.getString("c_address");
-				boolean married = rset.getBoolean("c_married");
-				int passportNo = rset.getInt("c_passportNo");
-
-				Education education = Education.valueOf(rset.getString("c_education"));
-				dto = new CustomerDTO(id, name, from, to, address, married, passportNo, education);
+				CustomerDTO dto = mapResultToDto(rset);
 
 				// System.out.println(dto);
 
 				dt.add(dto);
-
 			}
 		} catch (SQLException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+
 		return dt;
 	}
 
@@ -119,31 +147,60 @@ public class CustomerDAOImpl implements CustomerDAO {
 	public int total() {
 		int count = 0;
 
-		try (Connection connect = DriverManager.getConnection(url, username, password)) {
-			Statement st = connect.createStatement();
-			ResultSet result = st.executeQuery("SELECT COUNT(*) FROM customer_table");
-
-			result.next();
-			count = result.getInt("COUNT(*)");
-			System.out.println("Table contains " + result.getInt("COUNT(*)") + " rows");
+		String query = "SELECT COUNT(*) FROM customer_table";
+		ResultSet rset = executeResultSetQuery(query);
+		try {
+			rset.next();
+			count = rset.getInt("COUNT(*)");
+			System.out.println("Table contains " + rset.getInt("COUNT(*)") + " rows");
 		} catch (SQLException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+
 		return count;
 
 	}
 
 	@Override
 	public Optional<CustomerDTO> findOne(Predicate<CustomerDTO> predicate) {
-		
-		Collection<CustomerDTO> all = findAll();
-		return all.stream().filter(predicate).findAny();
+
+		String query = ("SELECT * FROM customer_table");
+		ResultSet rset = executeResultSetQuery(query);
+		try {
+			while (rset.next()) {
+				CustomerDTO dto = mapResultToDto(rset);
+				if (predicate.test(dto)) {
+					return Optional.of(dto);
+				}
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 	@Override
 	public Collection<CustomerDTO> findAll(Predicate<CustomerDTO> predicate) {
-		Collection<CustomerDTO> all = findAll();
-		return all.stream().filter(predicate).collect(Collectors.toList());
+		String query = ("SELECT * FROM customer_table");
+		Collection<CustomerDTO> list = new ArrayList<CustomerDTO>();
+		ResultSet rset = executeResultSetQuery(query);
+		try {
+			while (rset.next()) {
+				CustomerDTO dto = mapResultToDto(rset);
+				if (predicate.test(dto)) {
+					list.add(dto);
+				}
+
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return null;
+
 	}
 
 }
