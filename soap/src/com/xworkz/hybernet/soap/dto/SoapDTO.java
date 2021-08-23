@@ -11,6 +11,7 @@ import com.xworkz.hybernet.soap.constant.Type;
 @Table (name="soap_details")
 public class SoapDTO implements Serializable{
 	@Column (name="C_ID")
+	@ID
 	private int id;
 	@Column (name="C_NAME")
 	private String name;
