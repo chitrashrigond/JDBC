@@ -1,0 +1,51 @@
+Configuration configure();
+Configuration addclass(class ref);
+SessionFactory buildSession();
+
+SessionFactory(interface)
+Methods
+Session openSession();
+void close();
+
+Session(interface)
+Methods
+Transaction   beginTransaction();
+Transaction   getTransaction();
+Serializable  save(Object object);
+Serializable  save(String entityName, Object object)
+void	      update(Object object);
+void	      update(String entityName, Object object)
+<T> T	load(Class<T> theClass, Serializable id);
+<T> T	load(Class<T> theClass, Serializable id, LockMode lockMode);
+<T> T	load(Class<T> theClass, Serializable id, LockOptions lockOptions);
+void	load(Object object, Serializable id);
+Object	load(String entityName, Serializable id);
+Object	load(String entityName, Serializable id, LockMode lockMode);
+Object	load(String entityName, Serializable id, LockOptions lockOptions);
+void	delete(Object object);
+void close();
+<T> Query<T>    createQuery(CriteriaQuery<T> criteriaQuery);
+NativeQuery	   createSQLQuery(String queryString);
+Criteria       createCriteria(Class persistentClass);
+Criteria       createCriteria(Class persistentClass, String alias);
+Criteria       createCriteria(String entityName);
+Criteria       createCriteria(String entityName,String alias);
+
+Transaction
+Methods
+void commit();
+void rollback();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
